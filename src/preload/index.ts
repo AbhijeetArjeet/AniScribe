@@ -272,6 +272,12 @@ const api: ElectronApi = {
   batchExtractAnimepahe: (seriesUrl: string): Promise<any> => {
     return ipcRenderer.invoke('sniffer:batchExtractAnimepahe', seriesUrl);
   },
+  setSnifferCookie: (cookieValue: string): Promise<boolean> => {
+    return ipcRenderer.invoke('sniffer:setCookie', cookieValue);
+  },
+  openInExternalBrowser: (url: string): Promise<boolean> => {
+    return ipcRenderer.invoke('sniffer:openExternal', url);
+  },
 
   // Subscriptions
   onProgress: (callback: (progress: DownloadProgress) => void) => {

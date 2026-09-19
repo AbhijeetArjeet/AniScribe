@@ -28,6 +28,9 @@ import { registerSnifferHandlers } from './ipc/snifferHandlers';
 // Security: Register media:// scheme as privileged before app is ready
 registerMediaSchemesAsPrivileged();
 
+// Anti-detection: disable automation flags so Cloudflare Turnstile verification succeeds
+app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled');
+
 let mainWindow: BrowserWindow | null = null;
 let downloadManager: DownloadManager | null = null;
 let libraryManager: LibraryManager | null = null;

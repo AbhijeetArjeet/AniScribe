@@ -137,6 +137,8 @@ export interface ElectronApi {
     queuedCount: number;
     episodes: Array<{ episodeNumber: number; url: string; title: string }>;
   }>;
+  setSnifferCookie: (cookieValue: string) => Promise<boolean>;
+  openInExternalBrowser: (url: string) => Promise<boolean>;
 
   // Subscriptions
   onProgress: (callback: (progress: DownloadProgress) => void) => () => void;

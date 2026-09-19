@@ -73,8 +73,21 @@ export class MediaSnifferManager {
       },
     });
 
-    const customUa = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
-    this.snifferWindow.webContents.setUserAgent(customUa);
+    const defaultUa = this.snifferWindow.webContents.getUserAgent();
+    const cleanUa = defaultUa
+      .replace(/Electron\/[0-9.]+\s?/g, '')
+      .replace(/AniScribe\/[0-9.]+\s?/g, '');
+    this.snifferWindow.webContents.setUserAgent(cleanUa);
+
+    // Anti-detection: clean navigator.webdriver before page scripts run
+    this.snifferWindow.webContents.on('did-start-loading', () => {
+      this.snifferWindow?.webContents.executeJavaScript(`
+        try {
+          Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+          delete Object.getPrototypeOf(navigator).webdriver;
+        } catch(e) {}
+      `).catch(() => {});
+    });
 
     // Inject floating controller toolbar when pages load
     this.snifferWindow.webContents.on('did-finish-load', () => {
@@ -90,21 +103,56 @@ export class MediaSnifferManager {
   }
 
   /**
+   * Sets manual Cloudflare cf_clearance cookie if user solves in system browser
+   */
+  public async setClearanceCookie(cookieValue: string): Promise<boolean> {
+    const snifferSession = session.fromPartition('persist:aniscribe_sniffer');
+    try {
+      let val = cookieValue.trim();
+      const match = val.match(/cf_clearance=([^;\s]+)/);
+      if (match) val = match[1];
+
+      await snifferSession.cookies.set({
+        url: 'https://animepahe.pw',
+        name: 'cf_clearance',
+        value: val,
+        domain: '.animepahe.pw',
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'no_restriction',
+      });
+      console.log('[MediaSniffer] Set manual cf_clearance cookie');
+      if (this.snifferWindow && !this.snifferWindow.isDestroyed()) {
+        this.snifferWindow.reload();
+      }
+      return true;
+    } catch (err: any) {
+      console.error('[MediaSniffer] Error setting cookie:', err.message);
+      return false;
+    }
+  }
+
+  /**
    * Sniffs network headers for video streams (.mp4, .mkv, .m3u8, video/*)
-   * and ensures required Referer/Origin headers are attached.
+   * and ensures required Referer/Origin headers are attached without tampering with Cloudflare Turnstile.
    */
   private attachMediaSniffer(ses: Electron.Session): void {
     const filter = { urls: ['*://*/*'] };
 
-    // Inject referer and modern user agent for kwik and animepahe requests
+    // Only inject Referer for actual media stream downloads, NOT for Cloudflare challenges or page requests
     ses.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
       const requestHeaders = { ...details.requestHeaders };
       const url = details.url;
 
-      if (url.includes('kwik.') || url.includes('animepahe.')) {
-        requestHeaders['Referer'] = url.includes('kwik.') ? 'https://kwik.cx/' : 'https://animepahe.pw/';
-        requestHeaders['User-Agent'] =
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+      const isMedia =
+        url.includes('.mp4') ||
+        url.includes('.m3u8') ||
+        url.includes('/stream/') ||
+        url.includes('/d/');
+
+      if (url.includes('kwik.') && isMedia) {
+        requestHeaders['Referer'] = 'https://kwik.cx/';
       }
 
       callback({ requestHeaders });
@@ -210,6 +258,23 @@ export class MediaSnifferManager {
           }
         };
 
+        const cookieBtn = document.createElement('button');
+        cookieBtn.innerText = '🔑 Set Cookie';
+        cookieBtn.style.cssText = 'background:#1e293b;color:#cbd5e1;border:1px solid #475569;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;';
+        cookieBtn.title = 'Paste cf_clearance cookie from your regular browser';
+        cookieBtn.onclick = function() {
+          const val = prompt('Paste your Cloudflare cf_clearance cookie value from Chrome/Edge:');
+          if (val && val.trim()) {
+            const ipc = window.require ? window.require('electron').ipcRenderer : null;
+            if (ipc) {
+              ipc.send('aniscribe:setCookie', val.trim());
+              cookieBtn.innerText = '✓ Cookie Set!';
+              setTimeout(() => { cookieBtn.innerText = '🔑 Set Cookie'; }, 2500);
+            }
+          }
+        };
+
+        rightSection.appendChild(cookieBtn);
         rightSection.appendChild(batchBtn);
         rightSection.appendChild(queueBtn);
 

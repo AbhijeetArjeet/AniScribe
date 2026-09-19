@@ -25,6 +25,8 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
   const [extracting, setExtracting] = useState(false);
   const [extractStatus, setExtractStatus] = useState<string | null>(null);
   const [capturedCount, setCapturedCount] = useState<number>(0);
+  const [showCookieInput, setShowCookieInput] = useState(false);
+  const [cookieValue, setCookieValue] = useState('');
 
   // Template Context fields
   const [showMetadata, setShowMetadata] = useState(false);
@@ -115,6 +117,27 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
   const handleOpenBrowser = (url?: string) => {
     const target = url || singleUrl.trim() || 'https://animepahe.pw';
     window.api.openSniffer(target);
+  };
+
+  const handleOpenSystemBrowser = () => {
+    const target = singleUrl.trim() || batchUrls.trim() || 'https://animepahe.pw';
+    window.api.openInExternalBrowser(target);
+  };
+
+  const handleApplyCookie = async () => {
+    if (!cookieValue.trim()) return;
+    try {
+      const success = await window.api.setSnifferCookie(cookieValue.trim());
+      if (success) {
+        setExtractStatus('✓ Cloudflare cookie applied successfully! You can now click Batch Extract.');
+        setShowCookieInput(false);
+        setCookieValue('');
+      } else {
+        setError('Failed to apply cookie.');
+      }
+    } catch (e: any) {
+      setError(e.message);
+    }
   };
 
   const handleQueueCaptured = async () => {
@@ -330,7 +353,7 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
             <div style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
               Animepahe series URL detected. You can extract all episodes automatically into AniScribe's queue. If Cloudflare prompts for human verification ("Just a moment..."), click <strong>Open In-App Browser</strong> to solve it manually and stream/sniff instantly.
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '4px', flexWrap: 'wrap' }}>
               <button
                 type="button"
                 className="btn btn-primary"
@@ -350,7 +373,47 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
                 <Globe size={14} />
                 <span>🌐 Open In-App Browser (Solve Cloudflare / Sniff)</span>
               </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+                onClick={() => setShowCookieInput(!showCookieInput)}
+                title="Paste cf_clearance cookie if you solved Cloudflare in your normal browser"
+              >
+                <span>🔑 Paste Cookie</span>
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+                onClick={handleOpenSystemBrowser}
+                title="Open Animepahe in your normal Chrome or Edge browser"
+              >
+                <span>🚀 Open in Chrome/Edge</span>
+              </button>
             </div>
+
+            {showCookieInput && (
+              <div style={{ display: 'flex', gap: '8px', marginTop: '6px', background: '#0f172a', padding: '8px', borderRadius: '6px' }}>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Paste cf_clearance cookie value from Chrome/Edge..."
+                  value={cookieValue}
+                  onChange={(e) => setCookieValue(e.target.value)}
+                  style={{ flex: 1, fontSize: '12px' }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  style={{ padding: '4px 12px', fontSize: '12px' }}
+                  onClick={handleApplyCookie}
+                  disabled={!cookieValue.trim()}
+                >
+                  Apply Cookie
+                </button>
+              </div>
+            )}
           </div>
         )}
 
