@@ -1,0 +1,391 @@
+{
+  "audio_file": "tests/fixtures/multilingual/ko_3min.wav",
+  "language": "ko",
+  "duration_seconds": 180.13,
+  "sample_rate": 16000,
+  "cue_count": 63,
+  "license": "Creative Commons Attribution-ShareAlike (CC BY-SA)",
+  "source": "Wikimedia Commons Lingua Libre Speech",
+  "cues": [
+    {
+      "start": 0.5,
+      "end": 1.393,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 3.793,
+      "end": 4.58,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 6.18,
+      "end": 6.895,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 9.295,
+      "end": 10.29,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 11.89,
+      "end": 12.783,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 15.183,
+      "end": 15.97,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 17.57,
+      "end": 18.285,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 20.685,
+      "end": 21.68,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 23.28,
+      "end": 24.173,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 26.573,
+      "end": 27.36,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 28.96,
+      "end": 29.675,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 32.075,
+      "end": 33.07,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 34.67,
+      "end": 35.563,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 37.963,
+      "end": 38.75,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 40.35,
+      "end": 41.065,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 43.465,
+      "end": 44.46,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 46.06,
+      "end": 46.953,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 49.353,
+      "end": 50.14,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 51.74,
+      "end": 52.455,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 54.855,
+      "end": 55.85,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 57.45,
+      "end": 58.343,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 60.743,
+      "end": 61.53,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 63.13,
+      "end": 63.845,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 66.245,
+      "end": 67.24,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 68.84,
+      "end": 69.733,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 72.133,
+      "end": 72.92,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 74.52,
+      "end": 75.235,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 77.635,
+      "end": 78.63,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 80.23,
+      "end": 81.123,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 83.523,
+      "end": 84.31,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 85.91,
+      "end": 86.625,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 89.025,
+      "end": 90.02,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 91.62,
+      "end": 92.513,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 94.913,
+      "end": 95.7,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 97.3,
+      "end": 98.015,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 100.415,
+      "end": 101.41,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 103.01,
+      "end": 103.903,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 106.303,
+      "end": 107.09,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 108.69,
+      "end": 109.405,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 111.805,
+      "end": 112.8,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 114.4,
+      "end": 115.293,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 117.693,
+      "end": 118.48,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 120.08,
+      "end": 120.795,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 123.195,
+      "end": 124.19,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 125.79,
+      "end": 126.683,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 129.083,
+      "end": 129.87,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 131.47,
+      "end": 132.185,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 134.585,
+      "end": 135.58,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 137.18,
+      "end": 138.073,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 140.473,
+      "end": 141.26,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 142.86,
+      "end": 143.575,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 145.975,
+      "end": 146.97,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 148.57,
+      "end": 149.463,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 151.863,
+      "end": 152.65,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 154.25,
+      "end": 154.965,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 157.365,
+      "end": 158.36,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 159.96,
+      "end": 160.853,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 163.253,
+      "end": 164.04,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 165.64,
+      "end": 166.355,
+      "text": "월",
+      "english": "Month"
+    },
+    {
+      "start": 168.755,
+      "end": 169.75,
+      "text": "박쥐",
+      "english": "Bat"
+    },
+    {
+      "start": 171.35,
+      "end": 172.243,
+      "text": "안녕",
+      "english": "Hello"
+    },
+    {
+      "start": 174.643,
+      "end": 175.43,
+      "text": "내일",
+      "english": "Tomorrow"
+    },
+    {
+      "start": 177.03,
+      "end": 177.745,
+      "text": "월",
+      "english": "Month"
+    }
+  ],
+  "full_text": "안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월 박쥐 안녕 내일 월",
+  "full_english": "Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month Bat Hello Tomorrow Month"
+}

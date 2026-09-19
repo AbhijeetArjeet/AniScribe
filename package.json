@@ -1,0 +1,69 @@
+{
+  "name": "aniscribe",
+  "version": "1.0.0",
+  "description": "AniScribe - Production-Grade Offline AI Subtitle Engine & Media Player",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "build:main": "node build.js",
+    "build:renderer": "vite build",
+    "build": "node build.js && vite build",
+    "dev:renderer": "vite",
+    "dev:main": "node build.js --watch",
+    "dev": "concurrently -k -n \"renderer,main,electron\" -c \"blue,yellow,green\" \"vite\" \"node build.js --watch\" \"wait-on tcp:5173 && electron .\"",
+    "start": "electron .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "package": "npm run build && electron-builder"
+  },
+  "keywords": ["downloader", "batch", "electron", "react"],
+  "author": "BatchFetch Team",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "lucide-react": "^1.47.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1",
+    "wait-on": "^9.1.0"
+  },
+  "build": {
+    "appId": "com.aniscribe.app",
+    "productName": "AniScribe",
+    "npmRebuild": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/bin",
+        "to": "bin",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "models",
+        "to": "models",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

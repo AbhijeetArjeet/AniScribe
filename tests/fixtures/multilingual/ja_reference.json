@@ -1,0 +1,373 @@
+{
+  "audio_file": "tests/fixtures/multilingual/ja_3min.wav",
+  "language": "ja",
+  "duration_seconds": 180.67,
+  "sample_rate": 16000,
+  "cue_count": 60,
+  "license": "Creative Commons Attribution-ShareAlike (CC BY-SA)",
+  "source": "Wikimedia Commons Lingua Libre Speech",
+  "cues": [
+    {
+      "start": 0.5,
+      "end": 1.507,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 3.907,
+      "end": 4.908,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 6.508,
+      "end": 7.516,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 9.916,
+      "end": 10.913,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 12.513,
+      "end": 13.511,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 15.911,
+      "end": 16.917,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 18.517,
+      "end": 19.524,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 21.924,
+      "end": 22.925,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 24.525,
+      "end": 25.533,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 27.933,
+      "end": 28.93,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 30.53,
+      "end": 31.528,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 33.928,
+      "end": 34.934,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 36.534,
+      "end": 37.541,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 39.941,
+      "end": 40.942,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 42.542,
+      "end": 43.55,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 45.95,
+      "end": 46.947,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 48.547,
+      "end": 49.545,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 51.945,
+      "end": 52.951,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 54.551,
+      "end": 55.558,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 57.958,
+      "end": 58.959,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 60.559,
+      "end": 61.567,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 63.967,
+      "end": 64.964,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 66.564,
+      "end": 67.562,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 69.962,
+      "end": 70.968,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 72.568,
+      "end": 73.575,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 75.975,
+      "end": 76.976,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 78.576,
+      "end": 79.584,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 81.984,
+      "end": 82.981,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 84.581,
+      "end": 85.579,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 87.979,
+      "end": 88.985,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 90.585,
+      "end": 91.592,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 93.992,
+      "end": 94.993,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 96.593,
+      "end": 97.601,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 100.001,
+      "end": 100.998,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 102.598,
+      "end": 103.596,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 105.996,
+      "end": 107.002,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 108.602,
+      "end": 109.609,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 112.009,
+      "end": 113.01,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 114.61,
+      "end": 115.618,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 118.018,
+      "end": 119.015,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 120.615,
+      "end": 121.613,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 124.013,
+      "end": 125.019,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 126.619,
+      "end": 127.626,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 130.026,
+      "end": 131.027,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 132.627,
+      "end": 133.635,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 136.035,
+      "end": 137.032,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 138.632,
+      "end": 139.63,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 142.03,
+      "end": 143.036,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 144.636,
+      "end": 145.643,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 148.043,
+      "end": 149.044,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 150.644,
+      "end": 151.652,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 154.052,
+      "end": 155.049,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 156.649,
+      "end": 157.647,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 160.047,
+      "end": 161.053,
+      "text": "十",
+      "english": "Ten"
+    },
+    {
+      "start": 162.653,
+      "end": 163.66,
+      "text": "一",
+      "english": "One"
+    },
+    {
+      "start": 166.06,
+      "end": 167.061,
+      "text": "二",
+      "english": "Two"
+    },
+    {
+      "start": 168.661,
+      "end": 169.669,
+      "text": "三",
+      "english": "Three"
+    },
+    {
+      "start": 172.069,
+      "end": 173.066,
+      "text": "四",
+      "english": "Four"
+    },
+    {
+      "start": 174.666,
+      "end": 175.664,
+      "text": "五",
+      "english": "Five"
+    },
+    {
+      "start": 178.064,
+      "end": 179.07,
+      "text": "十",
+      "english": "Ten"
+    }
+  ],
+  "full_text": "一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十 一 二 三 四 五 十",
+  "full_english": "One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten One Two Three Four Five Ten"
+}

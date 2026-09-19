@@ -1,0 +1,47 @@
+{
+  "audio_file": "tests/fixtures/japanese_test_clip.wav",
+  "duration_seconds": 10.8173125,
+  "sample_rate": 16000,
+  "license": "Creative Commons Attribution-ShareAlike (CC BY-SA)",
+  "source": "Wikimedia Commons Japanese Spoken Pronunciations",
+  "cues": [
+    {
+      "start": 0.4,
+      "end": 1.407,
+      "japanese": "一",
+      "english": "One"
+    },
+    {
+      "start": 2.207,
+      "end": 3.209,
+      "japanese": "二",
+      "english": "Two"
+    },
+    {
+      "start": 4.009,
+      "end": 5.017,
+      "japanese": "三",
+      "english": "Three"
+    },
+    {
+      "start": 5.817,
+      "end": 6.814,
+      "japanese": "四",
+      "english": "Four"
+    },
+    {
+      "start": 7.614,
+      "end": 8.612,
+      "japanese": "五",
+      "english": "Five"
+    },
+    {
+      "start": 9.412,
+      "end": 10.417,
+      "japanese": "十",
+      "english": "Ten"
+    }
+  ],
+  "full_japanese": "一 二 三 四 五 十",
+  "full_english": "One Two Three Four Five Ten"
+}

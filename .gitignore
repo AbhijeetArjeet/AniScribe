@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Compilation & Bundling
+dist/
+build/
+release/
+*.spec
+
+# Python sidecar virtualenv & cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# AI Model weights (downloaded on demand or via scripts)
+models/
+resources/bin/
+
+# Logs & Temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# SQLite runtime databases
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

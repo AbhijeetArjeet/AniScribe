@@ -1,0 +1,325 @@
+{
+  "audio_file": "tests/fixtures/multilingual/zh_3min.wav",
+  "language": "zh",
+  "duration_seconds": 180.7,
+  "sample_rate": 16000,
+  "cue_count": 52,
+  "license": "Creative Commons Attribution-ShareAlike (CC BY-SA)",
+  "source": "Wikimedia Commons Lingua Libre Luilui6666 Mandarin Speech",
+  "cues": [
+    {
+      "start": 0.5,
+      "end": 2.065,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 4.365,
+      "end": 5.93,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 7.43,
+      "end": 8.995,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 11.295,
+      "end": 12.86,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 14.36,
+      "end": 15.925,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 18.225,
+      "end": 19.79,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 21.29,
+      "end": 22.855,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 25.155,
+      "end": 26.72,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 28.22,
+      "end": 29.785,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 32.085,
+      "end": 33.65,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 35.15,
+      "end": 36.715,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 39.015,
+      "end": 40.58,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 42.08,
+      "end": 43.645,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 45.945,
+      "end": 47.51,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 49.01,
+      "end": 50.575,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 52.875,
+      "end": 54.44,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 55.94,
+      "end": 57.505,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 59.805,
+      "end": 61.37,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 62.87,
+      "end": 64.435,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 66.735,
+      "end": 68.3,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 69.8,
+      "end": 71.365,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 73.665,
+      "end": 75.23,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 76.73,
+      "end": 78.295,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 80.595,
+      "end": 82.16,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 83.66,
+      "end": 85.225,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 87.525,
+      "end": 89.09,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 90.59,
+      "end": 92.155,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 94.455,
+      "end": 96.02,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 97.52,
+      "end": 99.085,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 101.385,
+      "end": 102.95,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 104.45,
+      "end": 106.015,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 108.315,
+      "end": 109.88,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 111.38,
+      "end": 112.945,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 115.245,
+      "end": 116.81,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 118.31,
+      "end": 119.875,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 122.175,
+      "end": 123.74,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 125.24,
+      "end": 126.805,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 129.105,
+      "end": 130.67,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 132.17,
+      "end": 133.735,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 136.035,
+      "end": 137.6,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 139.1,
+      "end": 140.665,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 142.965,
+      "end": 144.53,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 146.03,
+      "end": 147.595,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 149.895,
+      "end": 151.46,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 152.96,
+      "end": 154.525,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 156.825,
+      "end": 158.39,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 159.89,
+      "end": 161.455,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 163.755,
+      "end": 165.32,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 166.82,
+      "end": 168.385,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 170.685,
+      "end": 172.25,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 173.75,
+      "end": 175.315,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    },
+    {
+      "start": 177.615,
+      "end": 179.18,
+      "text": "八十块钱",
+      "english": "80 yuan"
+    }
+  ],
+  "full_text": "八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱 八十块钱",
+  "full_english": "80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan 80 yuan"
+}

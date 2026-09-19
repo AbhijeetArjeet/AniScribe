@@ -1,0 +1,336 @@
+{
+  "timestamp": "2026-09-19T15:51:23Z",
+  "evidence_level": "MEASURED",
+  "is_real_run": true,
+  "benchmark_harness_version": "2.1.0",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 2050",
+    "driver": "596.21",
+    "vram_total_mb": 4096,
+    "vram_free_mb": 3756,
+    "cpu_count": 12,
+    "cpu_logical_cores": 12,
+    "execution_providers": [
+      "DmlExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "models": {
+    "vad": {
+      "name": "Silero VAD v4 (ONNX)",
+      "license": "MIT",
+      "path": "models/vad/silero_vad.onnx"
+    },
+    "asr": {
+      "name": "Whisper-Base (INT8 ONNX)",
+      "license": "MIT / Apache-2.0",
+      "task": "transcribe",
+      "encoder": "models/whisper-base-int8/base-encoder.int8.onnx",
+      "decoder": "models/whisper-base-int8/base-decoder.int8.onnx"
+    },
+    "translation": {
+      "name": "MarianMT / Opus-MT (INT8 ONNX)",
+      "license": "Apache-2.0",
+      "task": "text_translate",
+      "target_language": "en"
+    }
+  },
+  "timings": {
+    "vad_ms": 716.61,
+    "asr_ms": 1136.04,
+    "translation_ms": 0.01,
+    "total_wall_time_ms": 1852.66,
+    "rtf": 0.171
+  },
+  "memory": {
+    "peak_ram_mb": 2563.11,
+    "vram_used_mb": 252.0
+  },
+  "active_providers": {
+    "vad_provider": "DmlExecutionProvider",
+    "asr_provider": "CPUExecutionProvider (sherpa-onnx Windows wheel)",
+    "directml_gpu_available": true
+  },
+  "records": [
+    {
+      "model_name": "whisper-large-v3-turbo",
+      "tier": "balanced",
+      "audio_id": "ja_clip_10s",
+      "language": "ja",
+      "audio_duration_sec": 10.82,
+      "cold_run": {
+        "load_ms": 2929.7,
+        "vad_ms": 992.66,
+        "asr_ms": 11317.91,
+        "translation_ms": 0.01,
+        "total_ms": 12310.58,
+        "rtf": 1.138
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 853.62,
+        "asr_ms_avg": 11182.68,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 12036.31,
+        "rtf_avg": 1.113
+      },
+      "live_lookahead_2s_latency_ms": 5321.75,
+      "telemetry": {
+        "peak_ram_mb": 1951.53,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 56,
+        "max_gpu_temp_c": 35
+      },
+      "accuracy": {
+        "reference": "一 二 三 四 五 十",
+        "recognized": "1 2 3 4 5 10",
+        "normalized_cer": 0.0
+      }
+    },
+    {
+      "model_name": "whisper-large-v3-turbo",
+      "tier": "balanced",
+      "audio_id": "ko_clip_20s",
+      "language": "ko",
+      "audio_duration_sec": 20.0,
+      "cold_run": {
+        "load_ms": 3660.62,
+        "vad_ms": 1379.11,
+        "asr_ms": 18997.31,
+        "translation_ms": 0.01,
+        "total_ms": 20376.43,
+        "rtf": 1.019
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 1356.38,
+        "asr_ms_avg": 18942.18,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 20298.57,
+        "rtf_avg": 1.015
+      },
+      "live_lookahead_2s_latency_ms": 5432.39,
+      "telemetry": {
+        "peak_ram_mb": 2983.96,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 80,
+        "max_gpu_temp_c": 35
+      },
+      "accuracy": {
+        "reference": "안녕 내일 월",
+        "recognized": "안녕 내일  박 안녕 내일 ",
+        "normalized_cer": 1.0
+      }
+    },
+    {
+      "model_name": "whisper-large-v3-turbo",
+      "tier": "balanced",
+      "audio_id": "zh_clip_20s",
+      "language": "zh",
+      "audio_duration_sec": 20.0,
+      "cold_run": {
+        "load_ms": 3586.93,
+        "vad_ms": 1224.94,
+        "asr_ms": 18155.46,
+        "translation_ms": 0.01,
+        "total_ms": 19380.41,
+        "rtf": 0.969
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 1316.3,
+        "asr_ms_avg": 18165.96,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 19482.27,
+        "rtf_avg": 0.974
+      },
+      "live_lookahead_2s_latency_ms": 5557.99,
+      "telemetry": {
+        "peak_ram_mb": 3426.19,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 51,
+        "max_gpu_temp_c": 35
+      },
+      "accuracy": {
+        "reference": "八十块钱",
+        "recognized": "八十塊錢",
+        "normalized_cer": 0.4
+      }
+    },
+    {
+      "model_name": "whisper-base",
+      "tier": "light",
+      "audio_id": "ja_clip_10s",
+      "language": "ja",
+      "audio_duration_sec": 10.82,
+      "cold_run": {
+        "load_ms": 1534.57,
+        "vad_ms": 795.17,
+        "asr_ms": 1227.51,
+        "translation_ms": 0.01,
+        "total_ms": 2022.69,
+        "rtf": 0.187
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 716.61,
+        "asr_ms_avg": 1136.04,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 1852.66,
+        "rtf_avg": 0.171
+      },
+      "live_lookahead_2s_latency_ms": 484.42,
+      "telemetry": {
+        "peak_ram_mb": 2563.11,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 51,
+        "max_gpu_temp_c": 35
+      },
+      "accuracy": {
+        "reference": "一 二 三 四 五 十",
+        "recognized": "1 2 3 4 5 10",
+        "normalized_cer": 0.0
+      }
+    },
+    {
+      "model_name": "whisper-base",
+      "tier": "light",
+      "audio_id": "ko_clip_20s",
+      "language": "ko",
+      "audio_duration_sec": 20.0,
+      "cold_run": {
+        "load_ms": 1180.94,
+        "vad_ms": 1375.64,
+        "asr_ms": 1680.04,
+        "translation_ms": 0.01,
+        "total_ms": 3055.69,
+        "rtf": 0.153
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 1359.87,
+        "asr_ms_avg": 1634.32,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 2994.2,
+        "rtf_avg": 0.15
+      },
+      "live_lookahead_2s_latency_ms": 456.02,
+      "telemetry": {
+        "peak_ram_mb": 965.39,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 63,
+        "max_gpu_temp_c": 35
+      },
+      "accuracy": {
+        "reference": "안녕 내일 월",
+        "recognized": "안녕",
+        "normalized_cer": 0.6
+      }
+    },
+    {
+      "model_name": "whisper-base",
+      "tier": "light",
+      "audio_id": "zh_clip_20s",
+      "language": "zh",
+      "audio_duration_sec": 20.0,
+      "cold_run": {
+        "load_ms": 1245.15,
+        "vad_ms": 1309.55,
+        "asr_ms": 2903.83,
+        "translation_ms": 0.01,
+        "total_ms": 4213.39,
+        "rtf": 0.211
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 1395.41,
+        "asr_ms_avg": 2875.0,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 4270.42,
+        "rtf_avg": 0.214
+      },
+      "live_lookahead_2s_latency_ms": 524.12,
+      "telemetry": {
+        "peak_ram_mb": 1148.07,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 60,
+        "max_gpu_temp_c": 36
+      },
+      "accuracy": {
+        "reference": "八十块钱",
+        "recognized": "80塊錢80塊錢80塊錢80塊錢80塊錢80塊錢",
+        "normalized_cer": 4.4
+      }
+    },
+    {
+      "model_name": "whisper-base",
+      "tier": "light",
+      "audio_id": "ja_full_3min",
+      "language": "ja",
+      "audio_duration_sec": 180.67,
+      "cold_run": {
+        "load_ms": 1262.54,
+        "vad_ms": 10372.38,
+        "asr_ms": 6198.47,
+        "translation_ms": 0.01,
+        "total_ms": 16570.86,
+        "rtf": 0.092
+      },
+      "warm_runs": {
+        "iterations": 1,
+        "vad_ms_avg": 10004.06,
+        "asr_ms_avg": 6128.78,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 16132.85,
+        "rtf_avg": 0.089
+      },
+      "live_lookahead_2s_latency_ms": 492.4,
+      "telemetry": {
+        "peak_ram_mb": 1152.2,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 55,
+        "max_gpu_temp_c": 36
+      },
+      "accuracy": {
+        "reference": "一 二 三 四 五 十",
+        "recognized": "12345101234",
+        "normalized_cer": 0.571
+      }
+    },
+    {
+      "model_name": "whisper-tiny",
+      "tier": "fastest_light",
+      "audio_id": "ja_clip_10s",
+      "language": "ja",
+      "audio_duration_sec": 10.82,
+      "cold_run": {
+        "load_ms": 898.49,
+        "vad_ms": 803.05,
+        "asr_ms": 961.52,
+        "translation_ms": 0.01,
+        "total_ms": 1764.58,
+        "rtf": 0.163
+      },
+      "warm_runs": {
+        "iterations": 3,
+        "vad_ms_avg": 783.73,
+        "asr_ms_avg": 938.0,
+        "translation_ms_avg": 0.01,
+        "total_ms_avg": 1721.74,
+        "rtf_avg": 0.159
+      },
+      "live_lookahead_2s_latency_ms": 261.94,
+      "telemetry": {
+        "peak_ram_mb": 1068.12,
+        "peak_vram_mb": 252.0,
+        "peak_gpu_util_percent": 55,
+        "max_gpu_temp_c": 36
+      },
+      "accuracy": {
+        "reference": "一 二 三 四 五 十",
+        "recognized": "1234510",
+        "normalized_cer": 0.0
+      }
+    }
+  ]
+}
