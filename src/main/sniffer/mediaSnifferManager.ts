@@ -1,6 +1,8 @@
 import { BrowserWindow, session, ipcMain, WebContents } from 'electron';
+import path from 'path';
 import { DownloadManager } from '../downloader/DownloadManager';
 import { TemplateContext } from '../../shared/types/settings';
+import { HttpClient } from '../network/HttpClient';
 
 export interface SniffedMediaItem {
   id: string;
@@ -67,9 +69,10 @@ export class MediaSnifferManager {
       autoHideMenuBar: true,
       webPreferences: {
         session: snifferSession,
-        contextIsolation: false, // Allows safe helper script injection
+        contextIsolation: true,
         nodeIntegration: false,
-        sandbox: false,
+        sandbox: true,
+        preload: path.join(__dirname, '../preload/snifferPreload.js'),
       },
     });
 
@@ -78,16 +81,6 @@ export class MediaSnifferManager {
       .replace(/Electron\/[0-9.]+\s?/g, '')
       .replace(/AniScribe\/[0-9.]+\s?/g, '');
     this.snifferWindow.webContents.setUserAgent(cleanUa);
-
-    // Anti-detection: clean navigator.webdriver before page scripts run
-    this.snifferWindow.webContents.on('did-start-loading', () => {
-      this.snifferWindow?.webContents.executeJavaScript(`
-        try {
-          Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-          delete Object.getPrototypeOf(navigator).webdriver;
-        } catch(e) {}
-      `).catch(() => {});
-    });
 
     // Inject floating controller toolbar when pages load
     this.snifferWindow.webContents.on('did-finish-load', () => {
@@ -103,26 +96,39 @@ export class MediaSnifferManager {
   }
 
   /**
-   * Sets manual Cloudflare cf_clearance cookie if user solves in system browser
+   * Sets manual Cloudflare cf_clearance cookies into both HttpClient and Electron session
    */
-  public async setClearanceCookie(cookieValue: string): Promise<boolean> {
+  public async setClearanceCookie(cookieValue: string, userAgent?: string): Promise<boolean> {
     const snifferSession = session.fromPartition('persist:aniscribe_sniffer');
     try {
-      let val = cookieValue.trim();
-      const match = val.match(/cf_clearance=([^;\s]+)/);
-      if (match) val = match[1];
+      const cleanVal = cookieValue.trim();
+      const ua = userAgent?.trim() || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
 
-      await snifferSession.cookies.set({
-        url: 'https://animepahe.pw',
-        name: 'cf_clearance',
-        value: val,
-        domain: '.animepahe.pw',
-        path: '/',
-        secure: true,
-        httpOnly: true,
-        sameSite: 'no_restriction',
-      });
-      console.log('[MediaSniffer] Set manual cf_clearance cookie');
+      // Store in HttpClient so all RangeDownloader and API requests use it
+      HttpClient.setCloudflareCookies(cleanVal, ua);
+
+      // Parse individual cookie key-values and store in session
+      const pairs = cleanVal.split(';');
+      for (const pair of pairs) {
+        const idx = pair.indexOf('=');
+        if (idx > 0) {
+          const name = pair.slice(0, idx).trim();
+          const value = pair.slice(idx + 1).trim();
+          if (name && value) {
+            await snifferSession.cookies.set({
+              url: 'https://animepahe.pw',
+              name,
+              value,
+              domain: '.animepahe.pw',
+              path: '/',
+              secure: true,
+              sameSite: 'no_restriction',
+            }).catch(() => {});
+          }
+        }
+      }
+
+      console.log('[MediaSniffer] Set manual Cloudflare cookies in HttpClient and session');
       if (this.snifferWindow && !this.snifferWindow.isDestroyed()) {
         this.snifferWindow.reload();
       }
@@ -233,13 +239,27 @@ export class MediaSnifferManager {
         const rightSection = document.createElement('div');
         rightSection.style.cssText = 'display:flex;align-items:center;gap:10px;';
 
+        const cookieBtn = document.createElement('button');
+        cookieBtn.innerText = '🔑 Set Cookie';
+        cookieBtn.style.cssText = 'background:#1e293b;color:#cbd5e1;border:1px solid #475569;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;';
+        cookieBtn.title = 'Paste cf_clearance cookie from your regular browser';
+        cookieBtn.onclick = function() {
+          const val = prompt('Paste your Cloudflare cf_clearance cookie value from Chrome/Edge:');
+          if (val && val.trim()) {
+            if (window.aniscribeSniffer) {
+              window.aniscribeSniffer.setCookie(val.trim());
+              cookieBtn.innerText = '✓ Cookie Set!';
+              setTimeout(() => { cookieBtn.innerText = '🔑 Set Cookie'; }, 2500);
+            }
+          }
+        };
+
         const batchBtn = document.createElement('button');
         batchBtn.innerText = '⚡ Batch Extract Anime Episodes';
         batchBtn.style.cssText = 'background:#4f46e5;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background 0.2s;';
         batchBtn.onclick = function() {
-          const ipc = window.require ? window.require('electron').ipcRenderer : null;
-          if (ipc) {
-            ipc.send('aniscribe:batchExtractFromPage', window.location.href);
+          if (window.aniscribeSniffer) {
+            window.aniscribeSniffer.batchExtract(window.location.href);
             batchBtn.innerText = '⏳ Extracting Series...';
             batchBtn.disabled = true;
           }
@@ -250,27 +270,10 @@ export class MediaSnifferManager {
         queueBtn.innerText = '📥 Queue Captured (0)';
         queueBtn.style.cssText = 'background:#10b981;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;';
         queueBtn.onclick = function() {
-          const ipc = window.require ? window.require('electron').ipcRenderer : null;
-          if (ipc) {
-            ipc.send('aniscribe:queueAllCaptured');
+          if (window.aniscribeSniffer) {
+            window.aniscribeSniffer.queueAll();
             queueBtn.innerText = '✓ Queued!';
             setTimeout(() => { queueBtn.innerText = '📥 Queue Captured (0)'; }, 2000);
-          }
-        };
-
-        const cookieBtn = document.createElement('button');
-        cookieBtn.innerText = '🔑 Set Cookie';
-        cookieBtn.style.cssText = 'background:#1e293b;color:#cbd5e1;border:1px solid #475569;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;';
-        cookieBtn.title = 'Paste cf_clearance cookie from your regular browser';
-        cookieBtn.onclick = function() {
-          const val = prompt('Paste your Cloudflare cf_clearance cookie value from Chrome/Edge:');
-          if (val && val.trim()) {
-            const ipc = window.require ? window.require('electron').ipcRenderer : null;
-            if (ipc) {
-              ipc.send('aniscribe:setCookie', val.trim());
-              cookieBtn.innerText = '✓ Cookie Set!';
-              setTimeout(() => { cookieBtn.innerText = '🔑 Set Cookie'; }, 2500);
-            }
           }
         };
 
@@ -296,6 +299,59 @@ export class MediaSnifferManager {
     queuedCount: number;
     episodes: Array<{ episodeNumber: number; url: string; title: string }>;
   }> {
+    const seriesMatch = seriesUrl.match(/\/anime\/([a-f0-9-]+)/i);
+    const playMatch = seriesUrl.match(/\/play\/([a-f0-9-]+)/i);
+    const animeId = seriesMatch ? seriesMatch[1] : (playMatch ? playMatch[1] : null);
+
+    // 1. If Cloudflare cookies are configured in HttpClient, attempt direct API extraction first
+    if (animeId && HttpClient.getCloudflareCookies()) {
+      try {
+        console.log(`[MediaSniffer] Attempting direct API extraction for anime ${animeId} with cookies...`);
+        let page = 1;
+        let lastPage = 1;
+        const episodes: any[] = [];
+        do {
+          const apiRes = await HttpClient.get(`https://animepahe.pw/api?m=release&id=${animeId}&sort=episode_asc&page=${page}`);
+          if (apiRes.statusCode === 200) {
+            const body = await new Promise<string>((resolve, reject) => {
+              let d = '';
+              apiRes.stream.on('data', c => d += c);
+              apiRes.stream.on('end', () => resolve(d));
+              apiRes.stream.on('error', reject);
+            });
+            const data = JSON.parse(body);
+            if (data && data.data && Array.isArray(data.data)) {
+              lastPage = data.last_page || 1;
+              for (const ep of data.data) {
+                episodes.push({
+                  episodeNumber: ep.episode,
+                  session: ep.session,
+                  href: `https://animepahe.pw/play/${animeId}/${ep.session}`,
+                  title: `Anime - S01E${String(ep.episode).padStart(2, '0')}`,
+                });
+              }
+            } else {
+              break;
+            }
+          } else {
+            break;
+          }
+          page++;
+        } while (page <= lastPage);
+
+        if (episodes.length > 0 && this.downloadManager) {
+          console.log(`[MediaSniffer] Successfully extracted ${episodes.length} episodes via direct authenticated API!`);
+          for (const ep of episodes) {
+            await this.downloadManager.addUrls([ep.href], { title: 'Anime Series', episode: `S01E${String(ep.episodeNumber).padStart(2, '0')}` });
+          }
+          return { animeTitle: 'Anime Series', queuedCount: episodes.length, episodes };
+        }
+      } catch (err: any) {
+        console.log('[MediaSniffer] Direct API extraction with cookies error, falling back to browser window:', err.message);
+      }
+    }
+
+    // 2. Browser Window Extraction fallback
     const win = this.openBrowser(seriesUrl);
 
     // Wait for Cloudflare verification and page completion

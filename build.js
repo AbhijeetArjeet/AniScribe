@@ -28,15 +28,26 @@ async function build() {
     format: 'cjs',
   });
 
+  // Sniffer Preload script
+  const snifferPreloadCtx = await esbuild.context({
+    ...commonConfig,
+    entryPoints: [path.resolve(__dirname, 'src/preload/snifferPreload.ts')],
+    outfile: path.resolve(__dirname, 'dist/preload/snifferPreload.js'),
+    format: 'cjs',
+  });
+
   if (isDev) {
     await mainCtx.watch();
     await preloadCtx.watch();
+    await snifferPreloadCtx.watch();
     console.log('[esbuild] Watching main and preload...');
   } else {
     await mainCtx.rebuild();
     await preloadCtx.rebuild();
+    await snifferPreloadCtx.rebuild();
     await mainCtx.dispose();
     await preloadCtx.dispose();
+    await snifferPreloadCtx.dispose();
     console.log('[esbuild] Main and preload built successfully.');
   }
 }

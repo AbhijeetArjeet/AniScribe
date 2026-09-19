@@ -127,11 +127,16 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
   const handleApplyCookie = async () => {
     if (!cookieValue.trim()) return;
     try {
+      setExtractStatus('Applying cookie and extracting anime series...');
       const success = await window.api.setSnifferCookie(cookieValue.trim());
       if (success) {
-        setExtractStatus('✓ Cloudflare cookie applied successfully! You can now click Batch Extract.');
         setShowCookieInput(false);
-        setCookieValue('');
+        const targetUrl = singleUrl.trim() || batchUrls.trim();
+        if (targetUrl) {
+          await handleBatchExtractAnimepahe(targetUrl);
+        } else {
+          setExtractStatus('✓ Cloudflare cookie applied to download engine! Enter an anime URL to extract.');
+        }
       } else {
         setError('Failed to apply cookie.');
       }

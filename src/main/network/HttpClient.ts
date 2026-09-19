@@ -20,6 +20,25 @@ export interface HttpRequestOptions {
 }
 
 export class HttpClient {
+  private static cloudflareCookies: string = '';
+  private static customUserAgent: string =
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
+
+  public static setCloudflareCookies(cookieStr: string, userAgent?: string): void {
+    HttpClient.cloudflareCookies = cookieStr.trim();
+    if (userAgent && userAgent.trim()) {
+      HttpClient.customUserAgent = userAgent.trim();
+    }
+  }
+
+  public static getCloudflareCookies(): string {
+    return HttpClient.cloudflareCookies;
+  }
+
+  public static getCustomUserAgent(): string {
+    return HttpClient.customUserAgent;
+  }
+
   static isRetryableStatusCode(statusCode: number): boolean {
     return statusCode === 429 || (statusCode >= 500 && statusCode <= 504);
   }
@@ -64,7 +83,7 @@ export class HttpClient {
 
         const client = parsedUrl.protocol === 'https:' ? https : http;
         const reqHeaders: Record<string, string> = {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'User-Agent': HttpClient.customUserAgent,
           'Accept': '*/*',
           ...headers,
         };
@@ -73,6 +92,10 @@ export class HttpClient {
           reqHeaders['Referer'] = reqHeaders['Referer'] || 'https://kwik.cx/';
         } else if (parsedUrl.hostname.includes('animepahe')) {
           reqHeaders['Referer'] = reqHeaders['Referer'] || 'https://animepahe.pw/';
+        }
+
+        if (HttpClient.cloudflareCookies && (parsedUrl.hostname.includes('animepahe') || parsedUrl.hostname.includes('kwik'))) {
+          reqHeaders['Cookie'] = HttpClient.cloudflareCookies;
         }
 
         if (typeof rangeStart === 'number' && rangeStart > 0) {
