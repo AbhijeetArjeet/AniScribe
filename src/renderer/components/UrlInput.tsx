@@ -43,6 +43,30 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
     }
   };
 
+  const isKnownPortalWebpage = (urlStr: string): string | null => {
+    try {
+      const parsed = new URL(urlStr.trim());
+      const host = parsed.hostname.toLowerCase();
+      const path = parsed.pathname.toLowerCase();
+      if (
+        host.includes('animepahe') ||
+        host.includes('gogoanime') ||
+        host.includes('zoro') ||
+        host.includes('9anime') ||
+        host.includes('aniwave') ||
+        host.includes('crunchyroll')
+      ) {
+        const isDirectMedia = /\.(mp4|mkv|webm|ts|m3u8|avi|mov)($|\?)/i.test(path);
+        if (!isDirectMedia) {
+          return `Streaming portal webpage detected ("${parsed.hostname}"). AniScribe requires direct media stream links (.mp4, .mkv, .webm). Please copy the direct video or download link from the player/host instead of the website page URL.`;
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    return null;
+  };
+
   const handleAdd = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
@@ -58,6 +82,11 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
       if (!trimmed) continue;
       if (!validateUrl(trimmed)) {
         setError(`Invalid or unsupported URL: "${trimmed}". Only HTTP and HTTPS are supported.`);
+        return;
+      }
+      const portalWarning = isKnownPortalWebpage(trimmed);
+      if (portalWarning) {
+        setError(portalWarning);
         return;
       }
       validList.push(trimmed);
