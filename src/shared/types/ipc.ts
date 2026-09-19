@@ -127,6 +127,17 @@ export interface ElectronApi {
   clearHistory: () => Promise<boolean>;
   deleteHistoryItem: (id: string) => Promise<boolean>;
 
+  // In-App Browser & Cloudflare Sniffer
+  openSniffer: (targetUrl?: string) => Promise<boolean>;
+  getCapturedStreams: () => Promise<Array<{ id: string; url: string; title: string; quality?: string; sourceUrl: string; detectedAt: number }>>;
+  clearCapturedStreams: () => Promise<boolean>;
+  queueCapturedStreams: (customTitle?: string) => Promise<number>;
+  batchExtractAnimepahe: (seriesUrl: string) => Promise<{
+    animeTitle: string;
+    queuedCount: number;
+    episodes: Array<{ episodeNumber: number; url: string; title: string }>;
+  }>;
+
   // Subscriptions
   onProgress: (callback: (progress: DownloadProgress) => void) => () => void;
   onStatusChange: (callback: (data: { id: string; status: DownloadStatus; waiting?: { reason: string; retryAt: number }; error?: string }) => void) => () => void;
@@ -138,6 +149,7 @@ export interface ElectronApi {
   onBatchSubtitleUpdate: (callback: (job: BatchSubtitleJob) => void) => () => void;
   onLiveChunkReady: (callback: (cues: any[]) => void) => () => void;
   onLiveBufferStatus: (callback: (status: any) => void) => () => void;
+  onSnifferStreamsUpdated: (callback: (streams: any[]) => void) => () => void;
 }
 
 declare global {

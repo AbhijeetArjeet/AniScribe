@@ -256,6 +256,23 @@ const api: ElectronApi = {
     return ipcRenderer.invoke('history:deleteItem', id);
   },
 
+  // In-App Browser & Cloudflare Sniffer
+  openSniffer: (targetUrl?: string): Promise<boolean> => {
+    return ipcRenderer.invoke('sniffer:open', targetUrl);
+  },
+  getCapturedStreams: (): Promise<any[]> => {
+    return ipcRenderer.invoke('sniffer:getCaptured');
+  },
+  clearCapturedStreams: (): Promise<boolean> => {
+    return ipcRenderer.invoke('sniffer:clearCaptured');
+  },
+  queueCapturedStreams: (customTitle?: string): Promise<number> => {
+    return ipcRenderer.invoke('sniffer:queueCaptured', customTitle);
+  },
+  batchExtractAnimepahe: (seriesUrl: string): Promise<any> => {
+    return ipcRenderer.invoke('sniffer:batchExtractAnimepahe', seriesUrl);
+  },
+
   // Subscriptions
   onProgress: (callback: (progress: DownloadProgress) => void) => {
     const listener = (_event: IpcRendererEvent, progress: DownloadProgress) => callback(progress);
@@ -330,6 +347,13 @@ const api: ElectronApi = {
     ipcRenderer.on('ai:live-buffer-status', listener);
     return () => {
       ipcRenderer.removeListener('ai:live-buffer-status', listener);
+    };
+  },
+  onSnifferStreamsUpdated: (callback: (streams: any[]) => void) => {
+    const listener = (_event: IpcRendererEvent, streams: any[]) => callback(streams);
+    ipcRenderer.on('sniffer:streamsUpdated', listener);
+    return () => {
+      ipcRenderer.removeListener('sniffer:streamsUpdated', listener);
     };
   },
 };

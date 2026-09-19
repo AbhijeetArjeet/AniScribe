@@ -22,6 +22,8 @@ import { registerExportHandlers } from './ipc/exportHandlers';
 import { registerStorageHandlers } from './ipc/storageHandlers';
 import { SubtitleGenerator } from './ai/subtitleGenerator';
 import { registerAiHandlers } from './ipc/aiHandlers';
+import { MediaSnifferManager } from './sniffer/mediaSnifferManager';
+import { registerSnifferHandlers } from './ipc/snifferHandlers';
 
 // Security: Register media:// scheme as privileged before app is ready
 registerMediaSchemesAsPrivileged();
@@ -32,6 +34,7 @@ let libraryManager: LibraryManager | null = null;
 let exportManager: ExportManager | null = null;
 let storageManager: StorageManager | null = null;
 let providerManager: ProviderManager | null = null;
+let mediaSnifferManager: MediaSnifferManager | null = null;
 
 const isDev = !app.isPackaged && process.env.NODE_ENV !== 'production';
 
@@ -42,7 +45,7 @@ function createWindow(): void {
     minWidth: 850,
     minHeight: 550,
     backgroundColor: '#0f172a',
-    title: 'BatchFetch',
+    title: 'AniScribe',
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       contextIsolation: true,
@@ -142,6 +145,14 @@ app.whenReady().then(() => {
   // AI Subtitle Generator & Live Translation (Hardware-Aware, Offline)
   const subtitleGenerator = new SubtitleGenerator(libraryRepo, userDataPath, db);
 
+  // In-App Browser & Cloudflare Media Sniffer
+  mediaSnifferManager = new MediaSnifferManager(downloadManager);
+  mediaSnifferManager.setOnStreamsUpdated((streams) => {
+    if (mainWindow && !mainWindow.isDestroyed() && mainWindow.webContents) {
+      mainWindow.webContents.send('sniffer:streamsUpdated', streams);
+    }
+  });
+
   // Register Handlers
   registerDownloadHandlers(downloadManager, () => mainWindow, libraryRepo);
   registerSettingsHandlers(downloadManager);
@@ -152,6 +163,7 @@ app.whenReady().then(() => {
   registerExportHandlers(exportManager, () => mainWindow);
   registerStorageHandlers(storageManager, () => mainWindow);
   registerAiHandlers(subtitleGenerator);
+  registerSnifferHandlers(mediaSnifferManager);
 
   createWindow();
 

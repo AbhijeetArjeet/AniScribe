@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Download, History, Settings, Layers, Film, Smartphone, HardDrive } from 'lucide-react';
+import { Home, Download, History, Settings, Layers, Film, Smartphone, HardDrive, Globe } from 'lucide-react';
 
 export type PageTab = 'home' | 'library' | 'export' | 'downloads' | 'history' | 'storage' | 'settings';
 
@@ -21,8 +21,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <Layers size={20} color="#3b82f6" />
-        <span>BatchFetch</span>
+        <Layers size={20} color="#6366f1" />
+        <span>AniScribe</span>
       </div>
 
       <nav className="sidebar-nav">
@@ -100,6 +100,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span>Settings</span>
           </div>
         </button>
+
+        <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
+          <button
+            className="nav-item"
+            style={{ color: '#818cf8', fontWeight: 600 }}
+            onClick={() => window.api.openSniffer()}
+            title="Open In-App Browser for Cloudflare Solver and Stream Sniffer"
+          >
+            <div className="nav-item-left">
+              <Globe size={16} />
+              <span>Browser / Sniffer</span>
+            </div>
+          </button>
+        </div>
       </nav>
     </aside>
   );

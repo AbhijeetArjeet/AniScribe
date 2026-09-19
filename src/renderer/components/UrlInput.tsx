@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Download, FileText, Plus, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Download, FileText, Plus, AlertCircle, ChevronDown, ChevronUp, Globe, Zap, Sparkles, CheckCircle2 } from 'lucide-react';
 import { TemplateContext } from '../../shared/types/settings';
 import { VariantSelector } from './VariantSelector';
 import { VariantOptions, VariantSelection } from '../../shared/types/variant';
@@ -22,6 +22,9 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
   const [batchUrls, setBatchUrls] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+  const [extractStatus, setExtractStatus] = useState<string | null>(null);
+  const [capturedCount, setCapturedCount] = useState<number>(0);
 
   // Template Context fields
   const [showMetadata, setShowMetadata] = useState(false);
@@ -33,6 +36,15 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
     audio: 'Original',
     subtitles: 'None',
   });
+
+  useEffect(() => {
+    if (window.api?.onSnifferStreamsUpdated) {
+      const unsub = window.api.onSnifferStreamsUpdated((streams) => {
+        setCapturedCount(streams?.length || 0);
+      });
+      return unsub;
+    }
+  }, []);
 
   const validateUrl = (url: string): boolean => {
     try {
@@ -48,8 +60,13 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
       const parsed = new URL(urlStr.trim());
       const host = parsed.hostname.toLowerCase();
       const path = parsed.pathname.toLowerCase();
+
+      // Animepahe is handled directly by the In-App Browser & Batch Extractor
+      if (host.includes('animepahe') || host.includes('kwik.')) {
+        return null;
+      }
+
       if (
-        host.includes('animepahe') ||
         host.includes('gogoanime') ||
         host.includes('zoro') ||
         host.includes('9anime') ||
@@ -58,7 +75,7 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
       ) {
         const isDirectMedia = /\.(mp4|mkv|webm|ts|m3u8|avi|mov)($|\?)/i.test(path);
         if (!isDirectMedia) {
-          return `Streaming portal webpage detected ("${parsed.hostname}"). AniScribe requires direct media stream links (.mp4, .mkv, .webm). Please copy the direct video or download link from the player/host instead of the website page URL.`;
+          return `Streaming portal webpage detected ("${parsed.hostname}"). Use the In-App Browser & Sniffer toolbar to capture direct media streams.`;
         }
       }
     } catch {
@@ -67,14 +84,64 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
     return null;
   };
 
+  const isAnimepahe =
+    singleUrl.includes('animepahe.pw') ||
+    batchUrls.includes('animepahe.pw') ||
+    singleUrl.includes('kwik.') ||
+    batchUrls.includes('kwik.');
+
+  const handleBatchExtractAnimepahe = async (urlToExtract: string) => {
+    setError(null);
+    setExtractStatus(null);
+    setExtracting(true);
+    try {
+      setExtractStatus('Connecting to in-app session & extracting episodes...');
+      const res = await window.api.batchExtractAnimepahe(urlToExtract);
+      if (res && res.queuedCount > 0) {
+        setExtractStatus(`✓ Successfully extracted & queued ${res.queuedCount} episodes for "${res.animeTitle}"!`);
+        setSingleUrl('');
+      } else {
+        setExtractStatus('Opening In-App Browser to solve Cloudflare challenge or start playback...');
+        window.api.openSniffer(urlToExtract);
+      }
+    } catch (err: any) {
+      setError(`Extraction error: ${err.message}. Opening In-App Browser for manual solve...`);
+      window.api.openSniffer(urlToExtract);
+    } finally {
+      setExtracting(false);
+    }
+  };
+
+  const handleOpenBrowser = (url?: string) => {
+    const target = url || singleUrl.trim() || 'https://animepahe.pw';
+    window.api.openSniffer(target);
+  };
+
+  const handleQueueCaptured = async () => {
+    try {
+      const count = await window.api.queueCapturedStreams(title.trim() || undefined);
+      setExtractStatus(`✓ Successfully queued ${count} sniffed media stream(s) into download engine.`);
+      setCapturedCount(0);
+    } catch (err: any) {
+      setError(`Failed to queue captured streams: ${err.message}`);
+    }
+  };
+
   const handleAdd = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
+    setExtractStatus(null);
 
     const rawList =
       inputMode === 'single'
         ? [singleUrl]
         : batchUrls.split(/\r?\n/).map((u) => u.trim());
+
+    // If a single animepahe URL was submitted via Add button, route to batch extract
+    if (rawList.length === 1 && rawList[0].includes('animepahe.pw')) {
+      await handleBatchExtractAnimepahe(rawList[0]);
+      return;
+    }
 
     const validList: string[] = [];
     for (const u of rawList) {
@@ -135,7 +202,7 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             type="button"
@@ -155,16 +222,42 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
           </button>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-secondary"
-          style={{ padding: '4px 10px', fontSize: '12px' }}
-          onClick={handleTxtImport}
-          title="Import URLs from .txt file"
-        >
-          <FileText size={14} />
-          <span>Import TXT</span>
-        </button>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {capturedCount > 0 && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ padding: '4px 12px', fontSize: '12px', background: '#10b981', borderColor: '#10b981' }}
+              onClick={handleQueueCaptured}
+              title="Add sniffed video streams to download queue"
+            >
+              <Download size={14} />
+              <span>Queue Captured ({capturedCount})</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            style={{ padding: '4px 10px', fontSize: '12px', border: '1px solid #6366f1' }}
+            onClick={() => handleOpenBrowser()}
+            title="Open In-App Browser to solve Cloudflare or sniff media"
+          >
+            <Globe size={14} color="#818cf8" />
+            <span>In-App Browser & Sniffer</span>
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            style={{ padding: '4px 10px', fontSize: '12px' }}
+            onClick={handleTxtImport}
+            title="Import URLs from .txt file"
+          >
+            <FileText size={14} />
+            <span>Import TXT</span>
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleAdd}>
@@ -173,41 +266,112 @@ export const UrlInput: React.FC<UrlInputProps> = ({ onAddUrls, onImportTxt }) =>
             <input
               type="text"
               className="input"
-              placeholder="Paste direct HTTP or HTTPS URL (e.g. https://example.com/file.zip)..."
+              placeholder="Paste direct URL, Animepahe link (e.g. https://animepahe.pw/anime/...), or Kwik stream..."
               value={singleUrl}
               onChange={(e) => setSingleUrl(e.target.value)}
-              disabled={submitting}
+              disabled={submitting || extracting}
             />
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={submitting || !singleUrl.trim()}
+              disabled={submitting || extracting || !singleUrl.trim()}
               style={{ whiteSpace: 'nowrap' }}
             >
-              <Plus size={16} />
-              <span>Add to Queue</span>
+              {isAnimepahe ? <Zap size={16} /> : <Plus size={16} />}
+              <span>{isAnimepahe ? 'Batch Extract' : 'Add to Queue'}</span>
             </button>
           </div>
         ) : (
           <div>
             <textarea
               className="textarea"
-              placeholder="Paste multiple URLs, one per line..."
+              placeholder="Paste multiple URLs or Animepahe links, one per line..."
               value={batchUrls}
               onChange={(e) => setBatchUrls(e.target.value)}
-              disabled={submitting}
+              disabled={submitting || extracting}
               rows={4}
             />
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
               <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={submitting || !batchUrls.trim()}
+                disabled={submitting || extracting || !batchUrls.trim()}
               >
                 <Plus size={16} />
                 <span>Add All to Queue</span>
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Animepahe Cloudflare Helper Banner */}
+        {isAnimepahe && (
+          <div
+            style={{
+              marginTop: '12px',
+              padding: '12px 14px',
+              borderRadius: '8px',
+              background: 'rgba(99, 102, 241, 0.1)',
+              border: '1px solid rgba(99, 102, 241, 0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#a5b4fc', fontSize: '13px', fontWeight: 600 }}>
+                <Sparkles size={16} />
+                <span>Animepahe & Kwik Stream Batch Resolver</span>
+              </div>
+              <span style={{ fontSize: '11px', color: '#38bdf8', background: '#1e293b', padding: '2px 8px', borderRadius: '12px' }}>
+                Cloudflare Bypass & Media Sniffer Ready
+              </span>
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+              Animepahe series URL detected. You can extract all episodes automatically into AniScribe's queue. If Cloudflare prompts for human verification ("Just a moment..."), click <strong>Open In-App Browser</strong> to solve it manually and stream/sniff instantly.
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ padding: '6px 14px', fontSize: '12px', background: '#6366f1', borderColor: '#6366f1' }}
+                onClick={() => handleBatchExtractAnimepahe(singleUrl.trim() || batchUrls.trim())}
+                disabled={extracting}
+              >
+                <Zap size={14} />
+                <span>{extracting ? 'Extracting Series...' : '⚡ Batch Extract All Episodes'}</span>
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ padding: '6px 14px', fontSize: '12px' }}
+                onClick={() => handleOpenBrowser(singleUrl.trim() || batchUrls.trim())}
+              >
+                <Globe size={14} />
+                <span>🌐 Open In-App Browser (Solve Cloudflare / Sniff)</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Status / Success Banner */}
+        {extractStatus && (
+          <div
+            style={{
+              marginTop: '10px',
+              padding: '10px 12px',
+              borderRadius: '6px',
+              background: 'rgba(16, 185, 129, 0.12)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              color: '#34d399',
+              fontSize: '12px',
+            }}
+          >
+            <CheckCircle2 size={16} />
+            <span>{extractStatus}</span>
           </div>
         )}
 

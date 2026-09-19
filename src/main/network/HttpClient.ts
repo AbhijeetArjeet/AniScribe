@@ -64,10 +64,16 @@ export class HttpClient {
 
         const client = parsedUrl.protocol === 'https:' ? https : http;
         const reqHeaders: Record<string, string> = {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) BatchFetch/1.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
           'Accept': '*/*',
           ...headers,
         };
+
+        if (parsedUrl.hostname.includes('kwik')) {
+          reqHeaders['Referer'] = reqHeaders['Referer'] || 'https://kwik.cx/';
+        } else if (parsedUrl.hostname.includes('animepahe')) {
+          reqHeaders['Referer'] = reqHeaders['Referer'] || 'https://animepahe.pw/';
+        }
 
         if (typeof rangeStart === 'number' && rangeStart > 0) {
           reqHeaders['Range'] = typeof rangeEnd === 'number'
