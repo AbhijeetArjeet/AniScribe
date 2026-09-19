@@ -1,7 +1,7 @@
-# AniScribe (formerly BatchFetch)
-**Production-Grade Offline AI Subtitle Engine, Multilingual Speech Recognizer & Media Suite**
+# AniScribe
+**Production-Grade Offline AI Subtitle Engine, Cloudflare Stream Sniffer & Anime Media Suite**
 
-[![Tests](https://img.shields.io/badge/tests-29%20passed%20%2F%2088%20total-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-30%20passed%20%2F%2093%20total-brightgreen.svg)]()
 [![TypeScript](https://img.shields.io/badge/typescript-100%25%20typecheck%20passed-blue.svg)]()
 [![Offline](https://img.shields.io/badge/offline-100%25%20verified%20no%20cloud-success.svg)]()
 [![Hardware](https://img.shields.io/badge/GPU%20Target-NVIDIA%20RTX%202050%20DirectML-purple.svg)]()
@@ -12,10 +12,11 @@
 ## Overview
 
 **AniScribe** is an offline-first desktop application combining:
-1. **Offline AI Subtitle Generation**: Multilingual ASR (`whisper-large-v3-turbo` & `whisper-base` in INT8 ONNX) coupled with Silero VAD v4 via DirectML GPU acceleration, producing English `.srt` subtitles completely offline.
-2. **Decoupled Neural Translation**: Speech recognition is decoupled from translation. ASR yields raw Japanese, Korean, or Chinese transcripts, translated to English through dedicated MarianMT / Opus-MT models with per-title character glossaries (`Tanjiro`, `Nezuko`, honorifics).
-3. **VLC-Parity Player**: Custom `media://` protocol player with live read-ahead look-ahead streaming (30–60s buffer), live subtitle sync offset adjustment ($\pm 50$ms), audio/subtitle track switching, and full keyboard navigation.
-4. **Resilient Download & Library Engine**: Concurrent HTTP byte-range slicing (HTTP 206), rate-limiting resilience (HTTP 429 countdown), automatic file categorization, and lossless mobile device export.
+1. **Cloudflare Solver & Animepahe Batch Downloader**: In-App Chromium browser with manual Cloudflare Turnstile bypass, automated multi-page release API crawler, and real-time Kwik media stream sniffer (`.mp4`, `.m3u8`).
+2. **Offline AI Subtitle Generation**: Multilingual ASR (`whisper-large-v3-turbo` & `whisper-base` in INT8 ONNX) coupled with Silero VAD v4 via DirectML GPU acceleration, producing English `.srt` subtitles completely offline.
+3. **Decoupled Neural Translation**: Speech recognition is decoupled from translation. ASR yields raw Japanese, Korean, or Chinese transcripts, translated to English through dedicated MarianMT / Opus-MT models with per-title character glossaries (`Tanjiro`, `Nezuko`, honorifics).
+4. **VLC-Parity Player**: Custom `media://` protocol player with live read-ahead look-ahead streaming (30–60s buffer), live subtitle sync offset adjustment ($\pm 50$ms), audio/subtitle track switching, and full keyboard navigation.
+5. **Resilient Download & Library Engine**: Concurrent HTTP byte-range slicing (HTTP 206), rate-limiting resilience (HTTP 429 countdown), automatic file categorization, and lossless mobile device export.
 
 ---
 
@@ -61,6 +62,23 @@ Synchronized English Subtitle (.srt) & Real-Time Player OSD Overlay
 
 ---
 
+## Cloudflare Solver & Animepahe Batch Downloader
+
+AniScribe handles protected streaming portals like Animepahe (`animepahe.pw`) that enforce Cloudflare Turnstile bot checks:
+
+1. **Automatic Batch Extraction**:
+   - Paste any Animepahe series URL (`https://animepahe.pw/anime/<id>`) or episode URL (`https://animepahe.pw/play/<id>/<session>`).
+   - Click **`⚡ Batch Extract All Episodes`** to automatically fetch all paginated releases and queue every episode into the download engine.
+2. **In-App Chromium Browser (Manual Fallback)**:
+   - Click **`🌐 Open In-App Browser`** (or **`Browser / Sniffer`** on the sidebar).
+   - If Cloudflare prompts a challenge ("Just a moment..."), simply check the Turnstile box manually.
+   - The session saves clearance cookies (`cf_clearance`), and you can click **`⚡ Batch Extract Anime Episodes`** on the floating toolbar.
+3. **Live Media Stream Sniffer**:
+   - As you play or stream an episode, AniScribe's network sniffer detects the raw `.mp4` / `.m3u8` stream and attaches required `Referer: https://kwik.cx/` and `User-Agent` headers.
+   - Click **`📥 Queue Captured`** to queue the stream directly into your download list.
+
+---
+
 ## VLC-Parity Keyboard Controls
 
 | Key | Action |
@@ -88,7 +106,7 @@ Synchronized English Subtitle (.srt) & Real-Time Player OSD Overlay
 # Install dependencies
 npm install
 
-# Run complete Vitest suite (29 suites, 88 tests)
+# Run complete Vitest suite (30 suites, 93 tests)
 npm test
 
 # Run TypeScript type check (0 errors)
@@ -107,7 +125,7 @@ npm run build
 npx electron-builder --dir
 ```
 
-Output binary: `release\win-unpacked\BatchFetch.exe`.
+Output binary: `release\win-unpacked\AniScribe.exe`.
 
 ---
 
